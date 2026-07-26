@@ -1,0 +1,18 @@
+# Секреты — никогда не должны попасть в git
+.env
+*.session
+*.session-journal
+watchlist.db
+data/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/

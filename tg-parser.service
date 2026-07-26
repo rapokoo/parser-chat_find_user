@@ -1,0 +1,37 @@
+[Unit]
+Description=Telegram Memecoin Chat Parser (userbot)
+After=network-online.target
+Wants=network-online.target
+
+# Если сервис падает и перезапускается слишком часто (например, кривой .env) —
+# не уходить в бесконечный цикл рестартов: после 5 падений за 60 секунд
+# systemd остановит попытки, дав шанс на просмотр логов через journalctl.
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+
+# ВАЖНО: поменяй на реального пользователя и реальный путь на VPS перед установкой
+User=tgparser
+WorkingDirectory=/home/tgparser/parser-chat_find_media
+
+# Путь к python внутри venv — ExecStart должен указывать именно сюда,
+# а не на системный python3, иначе зависимости (telethon, aiosqlite, httpx) не найдутся
+ExecStart=/home/tgparser/parser-chat_find_media/.venv/bin/python3 main_parser.py
+
+# Если процесс упал (сетевая ошибка, исключение и т.д.) — перезапустить через 5 секунд.
+# Restart=always — перезапускать в любом случае, включая штатное завершение.
+Restart=always
+RestartSec=5
+
+# Логи идут в journald (смотреть через journalctl -u tg-parser -f)
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=tg-parser
+
+# Небольшой запас по памяти на всякий случай, поправь под свой VPS
+MemoryMax=512M
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+services:
+  tg-parser:
+    build: .
+    container_name: tg-parser
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # Пути внутри volume ./data — так session-файл и БД переживают
+      # пересоздание контейнера (docker-compose up --build и т.д.)
+      - SESSION_READER=/app/data/session_reader
+      - DB_PATH=/app/data/watchlist.db
+    volumes:
+      - ./data:/app/data
