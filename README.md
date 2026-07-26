@@ -55,6 +55,36 @@ python3 watchlist_cli.py remove --username юзернейм
 - Через systemd — см. `DEPLOYMENT.md`
 - Через Docker — см. `DOCKER.md`
 
+## ⚙️ Настройка окружения
+
+Перед запуском создайте файл `.env` и заполните своими данными:
+
+\`\`\`env
+# === Аккаунт №1 (читающий чаты userbot) ===
+API_ID_READER=       # ID приложения с my.telegram.org
+API_HASH_READER=     # Hash приложения с my.telegram.org
+SESSION_READER=      # Имя файла сессии (например: session_reader)
+
+# === Pushover (уведомления) ===
+PUSHOVER_TOKEN=      # Токен приложения Pushover
+PUSHOVER_USER_KEY=   # User Key вашего аккаунта Pushover
+
+# Звук уведомления (список: https://pushover.net/api#sounds)
+PUSHOVER_SOUND=persistent
+
+# Как часто (в секундах) повторять звук/вибро, пока не подтвердишь. Минимум 30.
+PUSHOVER_RETRY=30
+
+# Через сколько секунд Pushover перестанет напоминать, если не подтвердил (макс. 10800)
+PUSHOVER_EXPIRE=1800
+
+# Список отслеживаемых чатов (через запятую: username или ID)
+TARGET_CHATS=
+
+# Путь к SQLite базе watchlist'а
+DB_PATH=watchlist.db
+\`\`\`
+
 ## Важно
 
 `.env` и `*.session` содержат чувствительные данные (API-ключи, авторизованная сессия аккаунта) — никогда не коммитятся (см. `.gitignore`), передаются только напрямую на сервер.
